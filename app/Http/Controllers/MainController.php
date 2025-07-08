@@ -80,12 +80,12 @@ class MainController extends Controller
         echo '<pre>';
         echo '<h1>Exercícios de matemática (' . env('APP_NAME') . ')</h1>';
         foreach ($exercises as $exercise) {
-            echo '<h2><small>' . str_pad($exercise['exercise_number'], 2, '0', STR_PAD_LEFT) . '</small>. ' . $exercise['exercise'] . '</h2>';
+            echo '<h2><small>' . $exercise['exercise_number'] . '</small>. ' . $exercise['exercise'] . '</h2>';
         }
         echo '<hr>';
         echo '<small>Respostas</small><br>';
         foreach ($exercises as $exercise) {
-            echo '<small>' . str_pad($exercise['exercise_number'], 2, '0', STR_PAD_LEFT) . '. ' . $exercise['solution'] . '</small><br>';
+            echo '<small>' . $exercise['exercise_number'] . '. ' . $exercise['solution'] . '</small><br>';
         }
         echo '<hr>';
         echo '</pre>';
@@ -133,7 +133,7 @@ class MainController extends Controller
 
         return [
             'operations' => $operation,
-            'exercise_number' => $index + 1,
+            'exercise_number' => str_pad($index, 2, '0', STR_PAD_LEFT),
             'exercise' => $exercise,
             'solution' => "$exercise $solution",
         ];
