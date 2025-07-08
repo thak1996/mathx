@@ -43,10 +43,18 @@ class MainController extends Controller
         ]);
 
         $operations = [];
-        $operations[] = $request->check_sum ? 'sum' : null;
-        $operations[] = $request->check_subtraction ? 'subtraction' : null;
-        $operations[] = $request->check_multiplication ? 'multiplication' : null;
-        $operations[] = $request->check_division ? 'division' : null;
+        if ($request->check_sum) {
+            $operations[] = 'sum';
+        }
+        if ($request->check_subtraction) {
+            $operations[] = 'subtraction';
+        }
+        if ($request->check_multiplication) {
+            $operations[] = 'multiplication';
+        }
+        if ($request->check_division) {
+            $operations[] = 'division';
+        }
 
         $min = $request->number_one;
         $max = $request->number_two;
@@ -72,19 +80,24 @@ class MainController extends Controller
                     $solution = $number1 - $number2;
                     break;
                 case 'multiplication':
-                    $exercise = "$number1 * $number2 = ";
+                    $exercise = "$number1 x $number2 = ";
                     $solution = $number1 * $number2;
                     break;
                 case 'division':
                     if ($number2 == 0) {
                         $number2 = 1;
                     }
-                    $exercise = "$number1 / $number2 = ";
+                    $exercise = "$number1 : $number2 = ";
                     $solution = $number1 / $number2;
                     break;
             }
 
+            if (is_float($solution)) {
+                $solution = number_format($solution, 2, ',', '.');
+            }
+
             $exercises[] = [
+                'operations' => $operation,
                 'exercise_number' => $index + 1,
                 'exercise' => $exercise,
                 'solution' => "$exercise $solution",
