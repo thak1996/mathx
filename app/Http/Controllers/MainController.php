@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function index(): void
+    public function index(): View
     {
-        echo 'Welcome to the Laravel application!';
+        return view('home');
     }
 
     public function generateExercises(Request $request): void
