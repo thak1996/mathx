@@ -25,7 +25,7 @@
     </h3>
 
     <!-- form -->
-    <form action="{{ route('generateExercises') }}" method="post">
+    <form action="{{ route('generateExercises') }}" method="post" novalidate>
         @csrf
 
         <div class="container border border-primary rounded-3 p-5">
@@ -70,13 +70,13 @@
                     <div class="mb-3">
                         <label for="number_one">Mínimo:</label>
                         <input type="number" class="form-control" id="number_one" name="number_one" min="0"
-                            max="999" value="0">
+                            max="999" value="{{ old('number_one', 0) }}">
                     </div>
 
                     <div>
                         <label for="number_two">Máximo:</label>
                         <input type="number" class="form-control" id="number_two" name="number_two" min="0"
-                            max="999" value="100">
+                            max="999" value="{{ old('number_two', 100) }}">
                     </div>
 
                 </div>
@@ -89,7 +89,7 @@
                     <div class="mb-3">
                         <label for="number_exercises">Número:</label>
                         <input type="number" class="form-control" id="number_exercises" name="number_exercises"
-                            min="5" max="50" value="10">
+                            min="5" max="50" value="{{ old('number_exercises', 10) }}">
                     </div>
 
                     <div class="text-end">
@@ -103,6 +103,18 @@
         </div>
 
     </form>
+
+    @if ($errors->any() || session('errors'))
+    <div class="container mt-3">
+        <div class="alert alert-danger">
+            <ul>
+                @foreach (($errors->all() ?: session('errors')->all()) as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    </div>
+    @endif
 
     <!-- footer -->
     <footer class="text-center mt-5">
