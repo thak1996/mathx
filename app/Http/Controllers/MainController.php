@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -91,9 +92,27 @@ class MainController extends Controller
         echo '</pre>';
     }
 
-    public function exportExercises(): void
+    public function exportExercises()
     {
-        echo 'Printing exercises...';
+        if (!session()->has('exercises')) {
+            return redirect()->route('home');
+        }
+        $exercises = session('exercises');
+
+        $filename = 'exercises_' . env('APP_NAME') . date('Ymd_His') . '.txt';
+
+        $content = '';
+        foreach ($exercises as $exercise) {
+            $content .= $exercise['exercise_number'] . '. ' . $exercise['exercise'] . "\n";
+        }
+        $content .= "\n" . str_repeat('-', 20) .  "Respostas:" . str_repeat('-', 20) . "\n";
+        foreach ($exercises as $exercise) {
+            $content .= $exercise['exercise_number'] . '. ' . $exercise['solution'] . "\n";
+        }
+
+        return response($content)
+            ->header('Content-Type', 'text/plain')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
     private function generateExercise($index, $operations, $min, $max)
