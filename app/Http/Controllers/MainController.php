@@ -70,9 +70,25 @@ class MainController extends Controller
         return view('operations', ['exercises' => $exercises]);
     }
 
-    public function printExercises(): void
+    public function printExercises()
     {
-        echo 'Printing exercises...';
+        if (!session()->has('exercises')) {
+            return redirect()->route('home');
+        }
+        $exercises = session('exercises');
+
+        echo '<pre>';
+        echo '<h1>Exercícios de matemática (' . env('APP_NAME') . ')</h1>';
+        foreach ($exercises as $exercise) {
+            echo '<h2><small>' . str_pad($exercise['exercise_number'], 2, '0', STR_PAD_LEFT) . '</small>. ' . $exercise['exercise'] . '</h2>';
+        }
+        echo '<hr>';
+        echo '<small>Respostas</small><br>';
+        foreach ($exercises as $exercise) {
+            echo '<small>' . str_pad($exercise['exercise_number'], 2, '0', STR_PAD_LEFT) . '. ' . $exercise['solution'] . '</small><br>';
+        }
+        echo '<hr>';
+        echo '</pre>';
     }
 
     public function exportExercises(): void

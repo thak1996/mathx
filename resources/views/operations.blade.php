@@ -1,7 +1,6 @@
 @extends('layouts.main_layout')
 
-@section( 'content')
-
+@section('content')
 <!-- operations -->
 <div class="container">
     <hr>
@@ -20,13 +19,12 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col">
-            <a href="{{ route('/home')  }}" class="btn btn-primary px-5">VOLTAR</a>
+            <a href="{{ route('home') }}" class="btn btn-primary px-5">VOLTAR</a>
         </div>
         <div class="col text-end">
-            <a href="{{ route('/export-exercises') }}" class="btn btn-secondary px-5">DESCARREGAR EXERCÍCIOS</a>
-            <a href="{{route('/print-exercises')  }}" class="btn btn-secondary px-5">IMPRIMIR EXERCÍCIOS</a>
+            <a href="{{ route('exportExercises') }}" class="btn btn-secondary px-5">DESCARREGAR EXERCÍCIOS</a>
+            <a href="{{ route('printExercises') }}" class="btn btn-secondary px-5">IMPRIMIR EXERCÍCIOS</a>
         </div>
     </div>
 </div>
-
 @endsection
